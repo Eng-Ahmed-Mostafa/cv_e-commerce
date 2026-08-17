@@ -10,6 +10,13 @@ class Category extends Model
     use HasFactory;
     public $fillable = ['name','slug','images'];
 
+
+    protected $casts = [
+        'images' => 'array',
+    ];
+
+
+    // Relationships
     public function products() {
         return $this->hasMany(Product::class);
     }

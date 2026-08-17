@@ -15,7 +15,7 @@
                         <div class="form-floating mb-3">
                             <input class="form-control form-control_gray " name="email" value="" required=""
                                 autocomplete="email" autofocus="" wire:model="email">
-                            <label for="email">Email address *</label>
+                            <label class="p-0 bg-transparent d-block mb-3" for="email">Email address <span class="text-danger fs-3">*</span></label>
                         </div>
 
                         <div class="pb-3"></div>
@@ -23,14 +23,14 @@
                         <div class="form-floating mb-3">
                             <input id="password" type="password" class="form-control form-control_gray "
                                 name="password" required="" autocomplete="current-password" wire:model="password">
-                            <label for="customerPasswodInput">Password *</label>
+                            <label class="p-0 bg-transparent d-block mb-3" for="customerPasswodInput">Password <span class="text-danger fs-3">*</span></label>
                         </div>
 
                         <button class="btn btn-primary w-100 text-uppercase" type="submit">Log In</button>
 
                         <div class="customer-option mt-4 text-center">
                             <span class="text-secondary">No account yet?</span>
-                            <a href="register.html" class="btn-text js-show-register">Create Account</a> | <a
+                            <a href="{{ route('register') }}" class="btn-text js-show-register">Create Account</a> | <a
                                 href="my-account.html" class="btn-text js-show-register">My Account</a>
                         </div>
                     </form>

@@ -19,7 +19,10 @@ class CategoryFactory extends Factory
         return [
             'name' => $this->faker->word(),
             'slug' => $this->faker->unique()->slug(),
-            'images' => json_encode([$this->faker->imageUrl(), $this->faker->imageUrl()]),
+            'images' => [
+                $this->faker->imageUrl(),
+                $this->faker->imageUrl(),
+            ],
         ];
     }
 }

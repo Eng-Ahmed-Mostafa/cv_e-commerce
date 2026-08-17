@@ -14,7 +14,7 @@
               <div class="form-floating mb-3">
                 <input class="form-control form-control_gray " name="name" value="" required="" autocomplete="name"
                   autofocus="" wire:model="name">
-                <label for="name">Name</label>
+                <label class="p-0 bg-transparent d-block mb-3" for="name">Name <span class="text-danger fs-3">*</span></label>
                 @error('name')
                     <div class="text-danger">{{ $message }}</div>
                 @enderror
@@ -23,7 +23,7 @@
               <div class="form-floating mb-3">
                 <input id="email" type="email" class="form-control form-control_gray " name="email" value="" required=""
                   autocomplete="email" wire:model="email">
-                <label for="email">Email address *</label>
+                <label class="p-0 bg-transparent d-block mb-3" for="email">Email address <span class="text-danger fs-3">*</span></label>
                 @error('email')
                     <div class="text-danger">{{ $message }}</div>
                 @enderror
@@ -34,7 +34,7 @@
               <div class="form-floating mb-3">
                 <input id="mobile" type="text" class="form-control form-control_gray " name="mobile" value=""
                   required="" autocomplete="mobile" wire:model="phone">
-                <label for="mobile">Mobile *</label>
+                <label class="p-0 bg-transparent d-block mb-3" for="mobile">Mobile <span class="text-danger fs-3">*</span></label>
                 @error('phone')
                     <div class="text-danger">{{ $message }}</div>
                 @enderror
@@ -45,7 +45,7 @@
               <div class="form-floating mb-3">
                 <input id="password" type="password" class="form-control form-control_gray " name="password" required=""
                   autocomplete="new-password" wire:model="password">
-                <label for="password">Password *</label>
+                <label class="p-0 bg-transparent d-block mb-3" for="password">Password <span class="text-danger fs-3">*</span></label>
                 @error('password')
                     <div class="text-danger">{{ $message }}</div>
                 @enderror
@@ -53,8 +53,8 @@
 
               <div class="form-floating mb-3">
                 <input id="password-confirm" type="password" class="form-control form-control_gray"
-                  name="password_confirmation" required="" autocomplete="new-password" wire:model="confirm_password">
-                <label for="password">Confirm Password *</label>
+                  name="password_confirmation" required="" autocomplete="new-password" wire:model="password_confirmation">
+                <label class="p-0 bg-transparent d-block mb-3" for="password-confirm">Confirm Password <span class="text-danger fs-3">*</span></label>
                 @error('confirm_password')
                     <div class="text-danger">{{ $message }}</div>
                 @enderror
@@ -69,7 +69,7 @@
 
               <div class="customer-option mt-4 text-center">
                 <span class="text-secondary">Have an account?</span>
-                <a href="login.html" class="btn-text js-show-register">Login to your Account</a>
+                <a href="{{ route('login') }}" class="btn-text js-show-register">Login to your Account</a>
               </div>
             </form>
           </div>

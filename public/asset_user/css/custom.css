@@ -17,3 +17,13 @@
 .form-floating>.form-select {
     height: 48px;
 }
+
+.form-floating >.form-control:-webkit-autofill~label {
+    font-size: 1.2rem !important;
+    transform: scale(.85) translateY(-1.3rem) translate(.15rem) !important;
+}
+
+.form-floating>.form-control:focus~label, .form-floating>.form-control:not(:placeholder-shown)~label, .form-floating>.form-control-plaintext~label, .form-floating>.form-select~label {
+    font-size: 1.2rem !important;
+    transform: scale(.85) translateY(-1.3rem) translate(.15rem) !important;
+}

@@ -18,7 +18,7 @@ class CategoryResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'slug' => $this->slug,
-            'images' => $this->images ? collect(json_decode($this->images))->map(fn($img) => asset('storage/' . $img)) : [],
+            'images' => $this->images ? collect($this->images)->map(fn($img) => asset('storage/' . $img)) : [],
             'date' => $this->created_at?->format('Y-m-d'),
         ];
     }

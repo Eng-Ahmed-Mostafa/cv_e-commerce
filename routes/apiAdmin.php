@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 use App\Http\Controllers\Api\Admin\CouponController;
 use App\Http\Controllers\Api\Admin\OrderController;
@@ -13,5 +13,5 @@ Route::prefix('admin')->middleware(['role:admin,api'])->group(function() {
     Route::apiResource('categories',CategoryController::class);
     Route::apiResource('products',ProductController::class);
     Route::apiResource('coupons',CouponController::class);
-    Route::apiResource('orders',OrderController::class)->except(['store']);
+    Route::apiResource('orders',OrderController::class);
 });

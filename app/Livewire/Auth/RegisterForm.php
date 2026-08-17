@@ -12,14 +12,13 @@ class RegisterForm extends Component
     public $email;
     public $phone;
     public $password;
-    public $confirm_password;
+    public $password_confirmation;
     public function register() {
         $this->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email',
             'phone' => 'nullable|string|max:20',
-            'password' => 'required|string|min:8|confirmed',
-            'confirm_password' => 'required|same:password',
+            'password' => 'required|string|min:8|confirmed'
         ]);
 
         User::create([

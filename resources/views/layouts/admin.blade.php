@@ -17,6 +17,7 @@
     <link rel="apple-touch-icon-precomposed" href="{{ asset('asset_admin/images/favicon.ico') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('asset_admin/css/sweetalert.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('asset_admin/css/custom.css') }}">
+    @livewrieStyles
 </head>
 
 <body class="body">
@@ -115,7 +116,7 @@
                                     </a>
                                     <ul class="sub-menu">
                                         <li class="sub-menu-item">
-                                            <a href="{{ route('admin.order') }}" class="">
+                                            <a href="{{ route('admin.orders') }}" class="">
                                                 <div class="text">Orders</div>
                                             </a>
                                         </li>
@@ -456,8 +457,8 @@
 
     <script src="{{ asset('asset_admin/js/jquery.min.js') }}"></script>
     <script src="{{ asset('asset_admin/js/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('asset_admin/js/bootstrap-select.min.js') }}"></script>   
-    <script src="{{ asset('asset_admin/js/sweetalert.min.js') }}"></script>    
+    <script src="{{ asset('asset_admin/js/bootstrap-select.min.js') }}"></script>
+    <script src="{{ asset('asset_admin/js/sweetalert.min.js') }}"></script>
     <script src="{{ asset('asset_admin/js/apexcharts/apexcharts.js') }}"></script>
     <script src="{{ asset('asset_admin/js/main.js') }}"></script>
     <script>
@@ -558,6 +559,7 @@
             jQuery(window).on("resize", function () { });
         })(jQuery);
     </script>
+    @livewireScripts
 </body>
 
 </html>

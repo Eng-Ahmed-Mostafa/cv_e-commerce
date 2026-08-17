@@ -136,14 +136,30 @@
               }
             }'>
                     <div class="swiper-wrapper">
-                        @foreach ($categories as $category)
-                            <div class="swiper-slide">
-                                <img loading="lazy" class="w-100 h-auto mb-3"
-                                    src="{{ asset('storage/'. json_decode($category->images)[0]) }}" width="124"
-                                    height="124" alt="" />
-                                <div class="text-center">
-                                    <a href="#" class="menu-link fw-medium">{{ !empty(explode(' ',$category->name)[1]) ? explode(' ',$category->name)[0]. "<br/>" .explode(' ',$category->name)[1] : $category->name }}</a>
+                        @foreach ($categories->take(12) as $category)
+                            <div class="swiper-slide text-center">
+
+                                @if (!empty($category->images))
+                                    <div class="image overflow-hidden rounded-circle mx-auto mb-3"
+                                        style="width: 124px; height: 124px;">
+
+                                        <img loading="lazy" src="{{ asset('storage/' . $category->images[0]) }}"
+                                            class="w-100 h-100 object-fit-cover" alt="{{ $category->name }}" />
+
+                                    </div>
+                                @endif
+
+                                <div>
+                                    @php
+                                        // Split the category name into words and limit to 2 lines
+                                        $name = explode(' ', trim($category->name));
+                                    @endphp
+
+                                    <a href="#" class="menu-link fw-medium">
+                                        {!! implode('<br>', array_slice($name, 0, 2)) !!}
+                                    </a>
                                 </div>
+
                             </div>
                         @endforeach
                     </div><!-- /.swiper-wrapper -->
@@ -241,25 +257,26 @@
                                     <div class="swiper-slide product-card product-card_style3">
                                         <div class="pc__img-wrapper">
                                             <a href="details.html">
-                                                @if(!empty($product->image))
-                                                     <img loading="lazy"
-                                                        src="{{ asset('storage/'. $product->image) }}"
-                                                        width="258" height="313" alt="Cropped Faux leather Jacket"
+                                                @if (!empty($product->image))
+                                                    <img loading="lazy"
+                                                        src="{{ asset('storage/' . $product->image) }}" width="258"
+                                                        height="313" alt="Cropped Faux leather Jacket"
                                                         class="pc__img">
                                                 @endif
-                                                @if (!empty($product->images))
-                                                    <img loading="lazy"
-                                                        src="{{ asset('storage/'. json_decode($product->images)[0]) }}"
-                                                        width="258" height="313" alt="Cropped Faux leather Jacket"
-                                                        class="pc__img pc__img-second">
-                                                @endif
+                                                {{-- @if (!empty($product->images))
+                                                <img loading="lazy"
+                                                    src="{{ asset('storage/'. json_decode($product->images)[0]) }}"
+                                                    width="258" height="313" alt="Cropped Faux leather Jacket"
+                                                    class="pc__img pc__img-second">
+                                                @endif --}}
                                             </a>
                                         </div>
 
                                         <div class="pc__info position-relative">
                                             <h6 class="pc__title"><a href="details.html">{{ $product->name }}</a></h6>
                                             <div class="product-card__price d-flex">
-                                                <span class="money price text-secondary">${{ $product->sale_price }}</span>
+                                                <span
+                                                    class="money price text-secondary">${{ $product->sale_price }}</span>
                                             </div>
 
                                             <div
@@ -272,8 +289,8 @@
                                                     data-bs-toggle="modal" data-bs-target="#quickView"
                                                     title="Quick view">
                                                     <span class="d-none d-xxl-block">Quick View</span>
-                                                    <span class="d-block d-xxl-none"><svg width="18" height="18"
-                                                            viewBox="0 0 18 18" fill="none"
+                                                    <span class="d-block d-xxl-none"><svg width="18"
+                                                            height="18" viewBox="0 0 18 18" fill="none"
                                                             xmlns="http://www.w3.org/2000/svg">
                                                             <use href="#icon_view" />
                                                         </svg></span>
@@ -289,7 +306,7 @@
                                         </div>
                                     </div>
                                 @endforeach
-                                
+
                             </div><!-- /.swiper-wrapper -->
                         </div><!-- /.swiper-container js-swiper-slider -->
                     </div><!-- /.position-relative -->
@@ -345,8 +362,9 @@
                         <div class="product-card product-card_style3 mb-3 mb-md-4 mb-xxl-5">
                             <div class="pc__img-wrapper">
                                 <a href="details.html">
-                                    <img loading="lazy" src="{{ asset('storage/'. $product->image) }}"
-                                        width="330" height="400" alt="Cropped Faux leather Jacket" class="pc__img">
+                                    <img loading="lazy" src="{{ asset('storage/' . $product->image) }}"
+                                        width="330" height="400" alt="Cropped Faux leather Jacket"
+                                        class="pc__img">
                                 </a>
                             </div>
 
@@ -365,7 +383,8 @@
                                         data-bs-toggle="modal" data-bs-target="#quickView" title="Quick view">
                                         <span class="d-none d-xxl-block">Quick View</span>
                                         <span class="d-block d-xxl-none"><svg width="18" height="18"
-                                                viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                viewBox="0 0 18 18" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
                                                 <use href="#icon_view" />
                                             </svg></span>
                                     </button>
@@ -381,7 +400,7 @@
                         </div>
                     </div>
                 @endforeach
-               
+
             </div><!-- /.row -->
 
             <div class="text-center mt-2">

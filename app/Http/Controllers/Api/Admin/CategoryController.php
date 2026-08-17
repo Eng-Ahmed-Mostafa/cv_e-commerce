@@ -6,56 +6,47 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Traits\ApiResponseTrait;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Categories\CategoryRequest;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\CategoryResource;
+use App\Interface\Api\Categories\CategoryInterface;
 use Illuminate\Validation\ValidationException;
 
 class CategoryController extends Controller
 {
     use ApiResponseTrait;
+
+    protected CategoryInterface $categoryRepositoryAPI;
+
+    public function __construct(CategoryInterface $categoryRepositoryAPI)
+    {
+        $this->categoryRepositoryAPI = $categoryRepositoryAPI;
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $categories = Category::get();
-        return $this->successResponse(CategoryResource::collection($categories), 'Categorys retrieved successfully');
+        $categories = $this->categoryRepositoryAPI->getAll();
+        return $this->successResponse(CategoryResource::collection($categories), 'Categories retrieved successfully');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CategoryRequest $request)
     {
+        $request->validated();
+
+        $data = $request->only(['name', 'slug', 'images']);
+
         try {
-            $request->validate([
-                'name' => 'required',
-                'slug' => 'required|string|max:255|unique:categories,slug',
-                'images.*' => 'nullable|mimes:png,jpg,jpeg|image|max:2048'
-            ]);
-        } catch (ValidationException $e) {
-            return $this->errorResponse('Validation failed',422,$e->errors());
+            $category = $this->categoryRepositoryAPI->create($data);
+            return $this->successResponse(new CategoryResource($category), 'Category created successfully');
+        } catch (\Exception $e) {
+            return $this->errorResponse('Failed to create category', 500, ['error' => $e->getMessage()]);
         }
-        
-        $slug = \Str::slug($request->slug);
-
-        $imagesPath = $request->images ?? null;
-
-        if($request->hasFile('images')) {
-            $imagesPath = [];
-            foreach($request->file('images') as $image)
-            {
-                $imagesPath[] = $image->store('categories','public');
-            }
-        }
-
-        $category = Category::create([
-            'name' => $request->name,
-            'slug' => $slug,
-            'images' => json_encode($imagesPath)
-        ]);
-
-        return $this->successResponse(new CategoryResource($category), 'Category created successfully');
     }
 
     /**
@@ -63,8 +54,8 @@ class CategoryController extends Controller
      */
     public function show(string $id)
     {
-        $category = Category::find($id);
-        if(!$category) {
+        $category = $this->categoryRepositoryAPI->findCategory($id);
+        if (!$category) {
             return $this->errorResponse('Category not found', 404);
         }
         return $this->successResponse(new CategoryResource($category));
@@ -73,49 +64,39 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(CategoryRequest $request, string $id)
     {
         try {
-            $request->validate([
-                'name' => 'required',
-                'slug' => 'required|string|max:255|unique:categories,slug,' . $id,
-                'images.*' => 'nullable|mimes:png,jpg,jpeg|image|max:2048'
-            ]);
+            $request->validated();
         } catch (ValidationException $e) {
-            return $this->errorResponse('Validation failed',422,$e->errors());
+            return $this->errorResponse('Validation failed', 422, $e->errors());
         }
 
         $slug = \Str::slug($request->slug);
 
 
-        $category = Category::find($id);
+        $category = $this->categoryRepositoryAPI->findCategory($id);
 
-        if(!$category) {
+        if (!$category) {
             return $this->errorResponse('Category not found', 404);
         }
 
-        $imagesPath = json_decode($category->images,true) ?? [];
-        if ($request->hasFile('images')) {
-            $imageRemove = $imagesPath;
-            foreach($imageRemove as $image) {
-                if (!empty($image)) {
-                    Storage::disk('public')->delete($image);
-                }
-            }
-            $imagesPath = [];
-            foreach($request->file('images') as $image) {
 
-                $imagesPath[] = $image->store('categories', 'public');
-            }
+        $images = $this->categoryRepositoryAPI->updateImages($request->file('images', []), 'categories');
+
+        if (!empty($request->file('images'))) {
+            // Delete old images
+            $this->categoryRepositoryAPI->removeImage($category->images);
         }
 
-        $category->update([
+        $data = [
             'name' => $request->name,
             'slug' => $slug,
-            'images' => json_encode($imagesPath)
-        ]);
+            'images' => $images
+        ];
+        $this->categoryRepositoryAPI->update($category, $data);
 
-        return $this->successResponse(new CategoryResource($category),'Category updated success');
+        return $this->successResponse(new CategoryResource($category), 'Category updated success');
     }
 
     /**
@@ -123,17 +104,15 @@ class CategoryController extends Controller
      */
     public function destroy(string $id)
     {
-        $category = Category::find($id);
-        if(!$category) {
+        $category = $this->categoryRepositoryAPI->findCategory($id);
+        if (!$category) {
             return $this->errorResponse('Category not found', 404);
         }
 
         if (!empty($category->images)) {
-            foreach (json_decode($category->images, true) as $imagePath) {
-                Storage::disk('public')->delete($imagePath);
-            }
+            $this->categoryRepositoryAPI->removeImage($category->images);
         }
-        $category->delete();
-        return $this->successResponse(null,'Category deleted success');
+        $this->categoryRepositoryAPI->delete($category);
+        return $this->successResponse(null, 'Category deleted success');
     }
 }
