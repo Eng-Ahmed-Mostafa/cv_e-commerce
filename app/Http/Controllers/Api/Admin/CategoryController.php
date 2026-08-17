@@ -2,12 +2,9 @@
 
 namespace App\Http\Controllers\Api\Admin;
 
-use App\Models\Category;
-use Illuminate\Http\Request;
 use App\Traits\ApiResponseTrait;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Categories\CategoryRequest;
-use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\CategoryResource;
 use App\Interface\Api\Categories\CategoryInterface;
 use Illuminate\Validation\ValidationException;

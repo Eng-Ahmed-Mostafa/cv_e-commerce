@@ -1,7 +1,7 @@
 <?php
 
 use App\Livewire\Admin\Brand\Create as BrandCreate;
-use App\Livewire\Admin\Brand\Display as BrandDisplay;
+use App\Livewire\Admin\Brand\Index as Brands;
 use App\Livewire\Admin\Brand\Edit as BrandEdit;
 use App\Livewire\Admin\Category\Index as Categories;
 use App\Livewire\Admin\Coupon\Create as CouponCreate;
@@ -31,9 +31,9 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::get('categories/edit/{category}', Categories::class)->name('category.edit');
 
     // Brands
-    Route::get('brand', BrandDisplay::class)->name('brand');
-    Route::get('brand/create', BrandCreate::class)->name('brand.create');
-    Route::get('brand/edit/{brand}', BrandEdit::class)->name('brand.edit');
+    Route::get('brands', Brands::class)->name('brand');
+    Route::get('brands/create', BrandCreate::class)->name('brand.create');
+    Route::get('brands/edit/{brand}', BrandEdit::class)->name('brand.edit');
 
     // Products
     Route::get('product', ProductDisplay::class)->name('product');

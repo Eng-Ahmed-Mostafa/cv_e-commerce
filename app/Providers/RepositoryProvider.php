@@ -19,6 +19,14 @@ class RepositoryProvider extends ServiceProvider
             \App\Interface\Api\Categories\CategoryInterface::class,
             \App\Interface\Api\Categories\CategoryRepository::class
         );
+        $this->app->bind(
+            \App\Interface\Http\Brands\BrandInterface::class,
+            \App\Interface\Http\Brands\BrandRepository::class
+        );
+        $this->app->bind(
+            \App\Interface\Api\Brands\BrandInterface::class,
+            \App\Interface\Api\Brands\BrandRepository::class
+        );
     }
 
     /**
