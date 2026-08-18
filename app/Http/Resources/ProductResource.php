@@ -19,7 +19,7 @@ class ProductResource extends JsonResource
             'name' => $this->name,
             'slug' => $this->slug,
             'image' => $this->image ? asset('storage/' . $this->image) : null,
-            'images' => $this->images ? collect(json_decode($this->images))->map(fn($img) => asset('storage/' . $img)) : [],
+            'images' => $this->images ? collect($this->images)->map(fn($img) => asset('storage/' . $img)) : [],
             'short_description' => $this->short_description,
             'description' => $this->description,
             'price' => number_format($this->price,2),

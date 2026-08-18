@@ -14,7 +14,7 @@ interface BrandInterface
 
     public function delete(Brand $Brand);
 
-    public function uploadImage(string $image, string $path): string;
+    public function uploadImage($image, string $path);
 
     public function removeImage(string $image): void;
 }

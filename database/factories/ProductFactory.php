@@ -21,7 +21,10 @@ class ProductFactory extends Factory
             'slug' => $this->faker->unique()->slug(),
             "price" => $this->faker->numberBetween(1000, 9000),
             "image" => $this->faker->imageUrl(),
-            "images" => json_encode([$this->faker->imageUrl(), $this->faker->imageUrl()]),
+            "images" =>  [
+                $this->faker->imageUrl(),
+                $this->faker->imageUrl(),
+            ],
             "short_description" => $this->faker->sentence(),
             "description" => $this->faker->paragraph(),
             "sale_price" => $this->faker->numberBetween(1000, 9000),

@@ -26,7 +26,7 @@
     </div>
     <!-- new-brand -->
     <div class="wg-box">
-        <form class="form-new-product form-style-1" wire:submit.prevent="save" action="" method="POST"
+        <form class="form-new-product form-style-1" wire:submit.prevent="storeBrand()" action="" method="POST"
             enctype="multipart/form-data">
             @csrf
             <fieldset class="name">

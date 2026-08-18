@@ -9,9 +9,7 @@ use App\Livewire\Admin\Coupon\Display as CouponDisplay;
 use App\Livewire\Admin\Coupon\Edit as CouponEdit;
 use App\Livewire\Admin\Dashboard;
 use App\Livewire\Admin\Order\Display as OrderDisplay;
-use App\Livewire\Admin\Product\Create as ProductCreate;
-use App\Livewire\Admin\Product\Display as ProductDisplay;
-use App\Livewire\Admin\Product\Edit as ProductEdit;
+use App\Livewire\Admin\Product\Index as Products;
 use App\Livewire\Admin\User\Display as UserDisplay;
 use App\Livewire\Admin\User\Setting;
 use Illuminate\Support\Facades\Route;
@@ -32,13 +30,13 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 
     // Brands
     Route::get('brands', Brands::class)->name('brand');
-    Route::get('brands/create', BrandCreate::class)->name('brand.create');
-    Route::get('brands/edit/{brand}', BrandEdit::class)->name('brand.edit');
+    Route::get('brands/create', Brands::class)->name('brand.create');
+    Route::get('brands/edit/{brand}', Brands::class)->name('brand.edit');
 
     // Products
-    Route::get('product', ProductDisplay::class)->name('product');
-    Route::get('product/create', ProductCreate::class)->name('product.create');
-    Route::get('product/edit/{product}', ProductEdit::class)->name('product.edit');
+    Route::get('products', Products::class)->name('product');
+    Route::get('products/create', Products::class)->name('product.create');
+    Route::get('products/edit/{product}', Products::class)->name('product.edit');
 
     // Orders
     Route::get('orders', OrderDisplay::class)->name('orders');

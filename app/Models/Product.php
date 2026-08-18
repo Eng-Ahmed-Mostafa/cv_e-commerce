@@ -25,11 +25,24 @@ class Product extends Model
         'brand_id'
     ];
 
+    protected $casts = [
+        'images' => 'array',
+    ];
 
+
+    /**
+     * Summary of category
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<Category, Product>
+     */
     public function category() {
         return $this->belongsTo(Category::class);
     }
-    
+
+
+    /**
+     * Summary of brand
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<Brand, Product>
+     */
     public function brand() {
         return $this->belongsTo(Brand::class);
     }

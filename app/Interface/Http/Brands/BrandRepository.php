@@ -33,7 +33,7 @@ class BrandRepository implements BrandInterface
         $Brand->delete();
     }
 
-    public function uploadImage(string $image, string $path): string
+    public function uploadImage($image, string $path)
     {
         $imagePath = '';
 

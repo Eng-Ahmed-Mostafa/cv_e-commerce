@@ -29,7 +29,7 @@ class Index extends Component
 
     public string $slug = '';
 
-    public string $image = '';
+    public $image = null;
 
     public string $existingImage = '';
 
@@ -110,7 +110,7 @@ class Index extends Component
      * @return void
      */
     public function storeBrand(): void {
-
+        $this->mode = ModeType::CREATE;
         $this->validate();
 
         try {
@@ -143,7 +143,6 @@ class Index extends Component
         $this->mode = ModeType::EDIT;
 
         $this->validate();
-
         try {
             $data = $this->brandData();
 
@@ -190,7 +189,7 @@ class Index extends Component
      */
     protected function brandData(): array
     {
-        $storageImage = $this->uploadImage('brands');
+        $storageImage = $this->brandRepository->uploadImage($this->image, 'brands');
 
         return [
             'name' => $this->name,
