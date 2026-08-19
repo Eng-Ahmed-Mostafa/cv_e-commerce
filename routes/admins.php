@@ -6,8 +6,7 @@ use App\Livewire\Admin\Coupon\Index as Coupon;
 use App\Livewire\Admin\Dashboard;
 use App\Livewire\Admin\Order\Index as Order;
 use App\Livewire\Admin\Product\Index as Products;
-use App\Livewire\Admin\User\Display as UserDisplay;
-use App\Livewire\Admin\User\Setting;
+use App\Livewire\Admin\User\Index as User;
 use Illuminate\Support\Facades\Route;
 
 
@@ -16,8 +15,8 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::get('dashboard', Dashboard::class)->name('dashboard');
 
     // Users
-    Route::get('user', UserDisplay::class)->name('user');
-    Route::get('setting', Setting::class)->name('setting');
+    Route::get('users', User::class)->name('user');
+    Route::get('users/settings', User::class)->name('user.settings');
 
     // Categories
     Route::get('categories', Categories::class)->name('category');

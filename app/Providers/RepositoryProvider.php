@@ -51,6 +51,10 @@ class RepositoryProvider extends ServiceProvider
             \App\Interface\Api\Orders\OrderInterface::class,
             \App\Interface\Api\Orders\OrderRepository::class
         );
+        $this->app->bind(
+            \App\Interface\Http\Users\UserInterface::class,
+            \App\Interface\Http\Users\UserRepository::class
+        );
     }
 
     /**

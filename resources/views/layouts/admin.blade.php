@@ -148,7 +148,7 @@
                                 </li>
 
                                 <li class="menu-item">
-                                    <a href="{{ route('admin.setting') }}" class="">
+                                    <a href="{{ route('admin.user.settings') }}" class="">
                                         <div class="icon"><i class="icon-settings"></i></div>
                                         <div class="text">Settings</div>
                                     </a>
