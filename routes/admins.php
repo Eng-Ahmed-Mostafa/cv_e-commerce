@@ -1,14 +1,10 @@
 <?php
 
-use App\Livewire\Admin\Brand\Create as BrandCreate;
 use App\Livewire\Admin\Brand\Index as Brands;
-use App\Livewire\Admin\Brand\Edit as BrandEdit;
 use App\Livewire\Admin\Category\Index as Categories;
-use App\Livewire\Admin\Coupon\Create as CouponCreate;
-use App\Livewire\Admin\Coupon\Display as CouponDisplay;
-use App\Livewire\Admin\Coupon\Edit as CouponEdit;
+use App\Livewire\Admin\Coupon\Index as Coupon;
 use App\Livewire\Admin\Dashboard;
-use App\Livewire\Admin\Order\Display as OrderDisplay;
+use App\Livewire\Admin\Order\Index as Order;
 use App\Livewire\Admin\Product\Index as Products;
 use App\Livewire\Admin\User\Display as UserDisplay;
 use App\Livewire\Admin\User\Setting;
@@ -39,12 +35,13 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::get('products/edit/{product}', Products::class)->name('product.edit');
 
     // Orders
-    Route::get('orders', OrderDisplay::class)->name('orders');
+    Route::get('orders', Order::class)->name('orders');
+    Route::get('orders/{id}/details', Order::class)->name('orders.details');
 
     // Coupons
-    Route::get('coupon', CouponDisplay::class)->name('coupon');
-    Route::get('coupon/create', CouponCreate::class)->name('coupon.create');
-    Route::get('coupon/edit/{coupon}', CouponEdit::class)->name('coupon.edit');
+    Route::get('coupons', Coupon::class)->name('coupon');
+    Route::get('coupons/create', Coupon::class)->name('coupon.create');
+    Route::get('coupons/edit/{coupon}', Coupon::class)->name('coupon.edit');
 });
 
 // Route::middleware(['auth'])->group(function() {

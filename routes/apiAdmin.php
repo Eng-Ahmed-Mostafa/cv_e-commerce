@@ -13,5 +13,5 @@ Route::prefix('admin')->middleware(['role:admin,api'])->group(function() {
     Route::apiResource('categories',CategoryController::class);
     Route::apiResource('products',ProductController::class);
     Route::apiResource('coupons',CouponController::class);
-    Route::apiResource('orders',OrderController::class);
+    Route::apiResource('orders',OrderController::class)->only(['index', 'show']);
 });

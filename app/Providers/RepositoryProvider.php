@@ -35,6 +35,22 @@ class RepositoryProvider extends ServiceProvider
             \App\Interface\Api\Products\ProductInterface::class,
             \App\Interface\Api\Products\ProductRepository::class
         );
+        $this->app->bind(
+            \App\Interface\Http\Coupons\CouponInterface::class,
+            \App\Interface\Http\Coupons\CouponRepository::class
+        );
+        $this->app->bind(
+            \App\Interface\Api\Coupons\CouponInterface::class,
+            \App\Interface\Api\Coupons\CouponRepository::class
+        );
+        $this->app->bind(
+            \App\Interface\Http\Orders\OrderInterface::class,
+            \App\Interface\Http\Orders\OrderRepository::class
+        );
+        $this->app->bind(
+            \App\Interface\Api\Orders\OrderInterface::class,
+            \App\Interface\Api\Orders\OrderRepository::class
+        );
     }
 
     /**

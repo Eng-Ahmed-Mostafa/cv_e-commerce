@@ -263,12 +263,12 @@
                                                         height="313" alt="Cropped Faux leather Jacket"
                                                         class="pc__img">
                                                 @endif
-                                                {{-- @if (!empty($product->images))
+                                                @if (!empty($product->images))
                                                 <img loading="lazy"
-                                                    src="{{ asset('storage/'. json_decode($product->images)[0]) }}"
+                                                    src="{{ asset('storage/'. $product->images[0]) }}"
                                                     width="258" height="313" alt="Cropped Faux leather Jacket"
                                                     class="pc__img pc__img-second">
-                                                @endif --}}
+                                                @endif
                                             </a>
                                         </div>
 

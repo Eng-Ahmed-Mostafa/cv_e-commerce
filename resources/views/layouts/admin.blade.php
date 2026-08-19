@@ -17,7 +17,7 @@
     <link rel="apple-touch-icon-precomposed" href="{{ asset('asset_admin/images/favicon.ico') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('asset_admin/css/sweetalert.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('asset_admin/css/custom.css') }}">
-    @livewrieStyles
+    @livewireStyles
 </head>
 
 <body class="body">
@@ -34,7 +34,7 @@
                 <div class="section-menu-left">
                     <div class="box-logo">
                         <a href="{{ route('home') }}" id="site-logo-inner">
-                            <img class="" id="logo_header" alt="" src="{{ url('asset_admin/images/logo/logo.png') }}">
+                            <img class="" id="logo_header" alt="" src="{{ asset('asset_admin/images/logo/logo.png') }}">
                         </a>
                         <div class="button-show-hide">
                             <i class="icon-menu-left"></i>
@@ -121,7 +121,7 @@
                                             </a>
                                         </li>
                                         <li class="sub-menu-item">
-                                            <a href="order-tracking.html" class="">
+                                            <a href="order" class="">
                                                 <div class="text">Order tracking</div>
                                             </a>
                                         </li>

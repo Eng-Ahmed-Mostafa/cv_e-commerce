@@ -2,53 +2,45 @@
 
 namespace App\Http\Controllers\Api\Admin;
 
-use App\Models\Coupon;
-use Illuminate\Http\Request;
+use App\Interface\Api\Coupons\CouponInterface;
 use App\Traits\ApiResponseTrait;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Coupons\CouponRequest;
 use App\Http\Resources\CouponResource;
-use Illuminate\Validation\ValidationException;
 
 class CouponController extends Controller
 {
     use ApiResponseTrait;
+
+    private CouponInterface $couponRepository;
+
+    public function __construct(CouponInterface $couponRepository)
+    {
+        $this->couponRepository = $couponRepository;
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $coupons = Coupon::get();
+        $coupons = $this->couponRepository->getAllPaginated(10);
         return $this->successResponse(CouponResource::collection($coupons), 'Coupons retrieved successfully');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CouponRequest $request)
     {
+        $data = $request->validated();
+
         try {
-            $request->validate([
-                'code' => 'required|unique:coupons,code',
-                'type' => 'required|in:fixed,percent',
-                'value' => 'required|numeric|min:0',
-                'cart_value' => 'required|numeric|min:0',
-                'expiry_date' => 'required|date|after_or_equal:today'
-            ]);
-        } catch (ValidationException $e) {
-            return $this->errorResponse('Validation failed',422,$e->errors());
+            $coupon = $this->couponRepository->create($data);
+            return $this->successResponse(new CouponResource($coupon), 'Coupon created successfully', 201);
+        } catch (\Exception $e) {
+            return $this->errorResponse('Failed to create coupon', 500, ['error' => $e->getMessage()]);
         }
-        
-    
-
-        $coupon = Coupon::create([
-            'code' => $request->code,
-            'type' => $request->type,
-            'value' => $request->value,
-            'cart_value' => $request->cart_value,
-            'expiry_date' => $request->expiry_date
-        ]);
-
-        return $this->successResponse(new CouponResource($coupon), 'Coupon created successfully');
     }
 
     /**
@@ -56,7 +48,7 @@ class CouponController extends Controller
      */
     public function show(string $id)
     {
-        $coupon = Coupon::find($id);
+        $coupon = $this->couponRepository->findCoupon($id);
         if(!$coupon) {
             return $this->errorResponse('Coupon not found', 404);
         }
@@ -66,36 +58,22 @@ class CouponController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(CouponRequest $request, string $id)
     {
-        try {
-            $request->validate([
-                'code' => 'required|unique:coupons,code,'. $id,
-                'type' => 'required|in:fixed,percent',
-                'value' => 'required|numeric|min:0',
-                'cart_value' => 'required|numeric|min:0',
-                'expiry_date' => 'required|date|after_or_equal:today'
-            ]);
-        } catch (ValidationException $e) {
-            return $this->errorResponse('Validation failed',422,$e->errors());
-        }
+        $data = $request->validated();
 
-
-        $coupon = Coupon::find($id);
+        $coupon = $this->couponRepository->findCoupon($id);
 
         if(!$coupon) {
             return $this->errorResponse('Coupon not found', 404);
         }
 
-        $coupon->update([
-            'code' => $request->code,
-            'type' => $request->type,
-            'value' => $request->value,
-            'cart_value' => $request->cart_value,
-            'expiry_date' => $request->expiry_date
-        ]);
-
-        return $this->successResponse(new CouponResource($coupon),'Coupon updated success');
+        try {
+            $this->couponRepository->update($coupon, $data);
+            return $this->successResponse(new CouponResource($coupon), 'Coupon updated successfully');
+        } catch (\Exception $e) {
+            return $this->errorResponse('Failed to update coupon', 500, ['error' => $e->getMessage()]);
+        }
     }
 
     /**
@@ -103,14 +81,18 @@ class CouponController extends Controller
      */
     public function destroy(string $id)
     {
-        $coupon = Coupon::find($id);
+        $coupon = $this->couponRepository->findCoupon($id);
 
         if(!$coupon) {
             return $this->errorResponse('Coupon not found', 404);
         }
 
-        $coupon->delete();
-
-        return $this->successResponse(null,'Coupon deleted success');
+        try {
+            $this->couponRepository->delete($coupon);
+            return $this->successResponse(null, 'Coupon deleted successfully');
+        } catch (\Exception $e) {
+            return $this->errorResponse('Failed to delete coupon', 500, ['error' => $e->getMessage()]);
+        }
     }
+
 }
